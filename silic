@@ -88,5 +88,7 @@ for item in itemlist:
         itemlist.append(newitem)
         urllist.append(s)
 
+poolmanager.clear()
+
 if not args.quiet:
     print("Scanned %i URLs" % len(itemlist))
