@@ -39,4 +39,4 @@ should output no warnings.
 
 # copyright
 
-This code is licensed as CC0.
+This code is licensed as 0BSD.
