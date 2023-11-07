@@ -5,8 +5,8 @@ silic - simple link checker written in python
 
 Dissatisfied with all the link checkers I could find I wrote my own.
 
-It takes an URL, will recursively try to get more HTML pages from the same hostname
-up to a depth of 3 (configurable via command line) and will check all src and href
+It takes an URL, will recursively try to get more HTML pages from the same hostname up
+to a depth of 3 (configurable via command line) and will check all src and href
 references for errors.
 
 # usage
