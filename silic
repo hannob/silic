@@ -55,6 +55,9 @@ for item in itemlist:
         print("Error with %s, linked from %s" % (item["url"], item["topurl"]))
         print("Exception: %s" % (e))
         continue
+    if r.status >= 400:
+        print("Error with %s, linked from %s" % (item["url"], item["topurl"]))
+        print(f"HTTP Code: {r.status}")
 
     headers = {k.lower(): v for k, v in r.headers.items()}
     if not (
