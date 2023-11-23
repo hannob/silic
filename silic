@@ -38,7 +38,10 @@ urllist = [args.url]
 roothost = urllib.parse.urlparse(args.url).netloc
 DEBUG("roothost %s" % roothost)
 
-poolmanager = urllib3.PoolManager(10, cert_reqs="CERT_REQUIRED")
+user_agent = {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+}
+poolmanager = urllib3.PoolManager(10, cert_reqs="CERT_REQUIRED", headers=user_agent)
 
 for item in itemlist:
     DEBUG("Processing %s depth %i" % (item["url"], item["depth"]))
