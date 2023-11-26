@@ -23,6 +23,7 @@ parser.add_argument(
     "-m", "--maxdepth", default="3", type=int, help="Maximum depth on start domain"
 )
 parser.add_argument("-q", "--quiet", action="store_true", help="Only output findings")
+parser.add_argument("--ignore403", action="store_true", help="Ignore 403 errors")
 parser.add_argument(
     "-d", "--debug", action="store_true", help="Show detailed debugging info"
 )
@@ -60,9 +61,10 @@ for item in itemlist:
         )
         continue
     if r.status >= 400:
-        print(
-            f"Error (HTTP Code {r.status}) with {item['url']} - linked from {item['topurl']}"
-        )
+        if not args.ignore403 or r.status != 403:
+            print(
+                f"Error (HTTP Code {r.status}) with {item['url']} - linked from {item['topurl']}"
+            )
     DEBUG(f"{item['url']} returned HTTP Code {r.status}")
 
     headers = {k.lower(): v for k, v in r.headers.items()}
