@@ -55,12 +55,14 @@ for item in itemlist:
     try:
         r = poolmanager.request("GET", item["url"])
     except Exception as e:
-        print("Error with %s - linked from %s" % (item["url"], item["topurl"]))
-        print("Exception: %s" % (e))
+        print(
+            f"Error (Exception {e}) with {item['url']} - linked from {item['topurl']}"
+        )
         continue
     if r.status >= 400:
-        print("Error with %s - linked from %s" % (item["url"], item["topurl"]))
-        print(f"HTTP Code: {r.status}")
+        print(
+            f"Error (HTTP Code {r.status}) with {item['url']} - linked from {item['topurl']}"
+        )
     DEBUG(f"{item['url']} returned HTTP Code {r.status}")
 
     headers = {k.lower(): v for k, v in r.headers.items()}
