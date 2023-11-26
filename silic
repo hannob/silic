@@ -65,6 +65,7 @@ for item in itemlist:
             print(
                 f"Error (HTTP Code {r.status}) with {item['url']} - linked from {item['topurl']}"
             )
+        continue
     DEBUG(f"{item['url']} returned HTTP Code {r.status}")
 
     headers = {k.lower(): v for k, v in r.headers.items()}
