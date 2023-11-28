@@ -32,7 +32,7 @@ args = parser.parse_args()
 
 ignore = []
 if args.ignore:
-    with open(args.ignore, "r") as f:
+    with open(args.ignore) as f:
         ignore = [s.strip() for s in f.readlines()]
         DEBUG(f"Ignorelist: {ignore}")
 
