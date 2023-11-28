@@ -8,8 +8,9 @@
 
 import argparse
 import urllib.parse
-import urllib3
+
 import bs4
+import urllib3
 
 
 def DEBUG(dbgmsg):
