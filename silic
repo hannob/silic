@@ -79,6 +79,9 @@ for item in itemlist:
         continue
     DEBUG(f"{item['url']} returned HTTP Code {r.status}")
 
+    if item["url"].startswith("http://") and r.geturl().startswith("https://"):
+        print(f"HTTPS redirect: {item['url']} -> {r.geturl()} from {item['topurl']}")
+
     headers = {k.lower(): v for k, v in r.headers.items()}
     if not (
         "content-type" in headers and headers["content-type"].startswith("text/html")
