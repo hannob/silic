@@ -7,6 +7,7 @@
 # Don't double-check fragment-urls (#foo)
 
 import argparse
+import time
 import urllib.parse
 
 import bs4
@@ -25,6 +26,7 @@ parser.add_argument(
 )
 parser.add_argument("-q", "--quiet", action="store_true", help="Only output findings")
 parser.add_argument("-i", "--ignore", help="File with URLs to ignore")
+parser.add_argument("-s", "--sleep", type=int, help="Seconds between requests")
 parser.add_argument("--ignore403", action="store_true", help="Ignore 403 errors")
 parser.add_argument(
     "-d", "--debug", action="store_true", help="Show detailed debugging info"
@@ -65,6 +67,8 @@ for item in itemlist:
         DEBUG("Not parsing %s, different protocol" % item["url"])
         continue
 
+    if args.sleep:
+        time.sleep(args.sleep)
     try:
         r = poolmanager.request("GET", item["url"])
     except Exception as e:
