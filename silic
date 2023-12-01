@@ -85,7 +85,14 @@ for item in itemlist:
     DEBUG(f"{item['url']} returned HTTP Code {r.status}")
 
     if item["url"].startswith("http://") and r.geturl().startswith("https://"):
-        print(f"HTTPS redirect: {item['url']} -> {r.geturl()} from {item['topurl']}")
+        if item["url"].replace("http://", "https://") == r.geturl():
+            print(
+                f"HTTPS redirect (direct): {item['url']} -> {r.geturl()} from {item['topurl']}"
+            )
+        else:
+            print(
+                f"HTTPS redirect (indirect): {item['url']} -> {r.geturl()} from {item['topurl']}"
+            )
 
     headers = {k.lower(): v for k, v in r.headers.items()}
     if not (
