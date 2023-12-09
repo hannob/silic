@@ -29,6 +29,9 @@ parser.add_argument("-i", "--ignore", help="File with URLs to ignore")
 parser.add_argument("-s", "--sleep", type=int, help="Seconds between requests")
 parser.add_argument("--ignore403", action="store_true", help="Ignore 403 errors")
 parser.add_argument(
+    "--block", help="File with strings to consider suspicious, e.g. sedo"
+)
+parser.add_argument(
     "-d", "--debug", action="store_true", help="Show detailed debugging info"
 )
 args = parser.parse_args()
@@ -38,6 +41,11 @@ if args.ignore:
     with open(args.ignore) as f:
         ignore = [s.strip() for s in f.readlines()]
         DEBUG(f"Ignorelist: {ignore}")
+
+block = []
+if args.block:
+    with open(args.block) as f:
+        block = [s.strip() for s in f.readlines()]
 
 if not args.quiet:
     print("Starting with %s" % args.url)
@@ -93,6 +101,10 @@ for item in itemlist:
             print(
                 f"HTTPS redirect (indirect): {item['url']} -> {r.geturl()} from {item['topurl']}"
             )
+
+    for bl in block:
+        if bl in r.data.decode(errors="ignore"):
+            print(f"BLOCKED string in {item['url']} - linked from {item['topurl']}")
 
     headers = {k.lower(): v for k, v in r.headers.items()}
     if not (
