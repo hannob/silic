@@ -62,6 +62,8 @@ user_agent = {
 }
 poolmanager = urllib3.PoolManager(10, cert_reqs="CERT_REQUIRED", headers=user_agent)
 
+warn = 0
+
 for item in itemlist:
     if item["url"] in ignore:
         DEBUG(f"Ignoring {item['url']}")
@@ -80,12 +82,14 @@ for item in itemlist:
     try:
         r = poolmanager.request("GET", item["url"])
     except Exception as e:
+        warn += 1
         print(
             f"Error (Exception {e}) with {item['url']} - linked from {item['topurl']}"
         )
         continue
     if r.status >= 400:
         if not args.ignore403 or r.status != 403:
+            warn += 1
             print(
                 f"Error (HTTP Code {r.status}) with {item['url']} - linked from {item['topurl']}"
             )
@@ -94,16 +98,19 @@ for item in itemlist:
 
     if item["url"].startswith("http://") and r.geturl().startswith("https://"):
         if item["url"].replace("http://", "https://") == r.geturl():
+            warn += 1
             print(
                 f"HTTPS redirect (direct): {item['url']} -> {r.geturl()} from {item['topurl']}"
             )
         else:
+            warn += 1
             print(
                 f"HTTPS redirect (indirect): {item['url']} -> {r.geturl()} from {item['topurl']}"
             )
 
     for bl in block:
         if bl in r.data.decode(errors="ignore"):
+            warn += 1
             print(f"BLOCKED string in {item['url']} - linked from {item['topurl']}")
 
     headers = {k.lower(): v for k, v in r.headers.items()}
@@ -143,4 +150,4 @@ for item in itemlist:
 poolmanager.clear()
 
 if not args.quiet:
-    print("Scanned %i URLs" % len(itemlist))
+    print(f"Scanned {len(itemlist)} URLs, {warn} warnings")
