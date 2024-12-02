@@ -16,7 +16,7 @@ import urllib3
 
 def DEBUG(dbgmsg):
     if args.debug:
-        print("DEBUG %s" % dbgmsg)
+        print(f"DEBUG {dbgmsg}")
 
 
 parser = argparse.ArgumentParser()
@@ -48,17 +48,18 @@ if args.block:
         block = [s.strip() for s in f.readlines()]
 
 if not args.quiet:
-    print("Starting with %s" % args.url)
+    print(f"Starting with {args.url}")
 
 
 itemlist = [{"url": args.url, "topurl": False, "depth": 0}]
 urllist = [args.url]
 
 roothost = urllib.parse.urlparse(args.url).netloc
-DEBUG("roothost %s" % roothost)
+DEBUG(f"roothost {roothost}")
 
 user_agent = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                  "(KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
 }
 poolmanager = urllib3.PoolManager(10, cert_reqs="CERT_REQUIRED", headers=user_agent)
 
@@ -69,12 +70,12 @@ for item in itemlist:
         DEBUG(f"Ignoring {item['url']}")
         continue
 
-    DEBUG("Processing %s depth %i" % (item["url"], item["depth"]))
+    DEBUG(f"Processing {item['url']} depth {item['depth']}")
     item["processed"] = True
 
     if urllib.parse.urlparse(item["url"]).scheme in ["mailto", "javascript"]:
         # TODO: Could check if mail address is well formed
-        DEBUG("Not parsing %s, different protocol" % item["url"])
+        DEBUG(f"Not parsing {item['url']}, different protocol")
         continue
 
     if args.sleep:
@@ -117,13 +118,13 @@ for item in itemlist:
     if not (
         "content-type" in headers and headers["content-type"].startswith("text/html")
     ):
-        DEBUG("Not parsing %s, not text/html" % item["url"])
+        DEBUG(f"Not parsing {item['url']}, not text/html")
         continue
     if item["depth"] >= args.maxdepth:
-        DEBUG("Not parsing %s, maxdepth reached" % item["url"])
+        DEBUG(f"Not parsing {item['url']}, maxdepth reached")
         continue
     if urllib.parse.urlparse(item["url"]).netloc != roothost:
-        DEBUG("Not parsing %s, different host" % item["url"])
+        DEBUG(f"Not parsing {item['url']}, different host")
         continue
 
     p = bs4.BeautifulSoup(r.data, "html.parser")
@@ -137,7 +138,7 @@ for item in itemlist:
 
     for s in srcs:
         if s in urllist:
-            DEBUG("Already know %s, skipping" % s)
+            DEBUG(f"Already know {s}, skipping")
             continue
         newitem = {}
         newitem["url"] = s
