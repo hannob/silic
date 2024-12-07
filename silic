@@ -3,8 +3,7 @@
 # Simple Link Checker by Hanno Boeck, https://hboeck.de/
 # License: 0BSD
 
-# TODO:
-# Don't double-check fragment-urls (#foo)
+# TODO: Don't double-check fragment-urls (#foo)
 
 import argparse
 import time
@@ -39,13 +38,13 @@ args = parser.parse_args()
 ignore = []
 if args.ignore:
     with open(args.ignore) as f:
-        ignore = [s.strip() for s in f.readlines()]
+        ignore = [s.strip() for s in f]
         DEBUG(f"Ignorelist: {ignore}")
 
 block = []
 if args.block:
     with open(args.block) as f:
-        block = [s.strip() for s in f.readlines()]
+        block = [s.strip() for s in f]
 
 if not args.quiet:
     print(f"Starting with {args.url}")
