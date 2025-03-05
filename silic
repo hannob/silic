@@ -9,7 +9,7 @@ import argparse
 import time
 import urllib.parse
 
-import bs4
+import lxml.html
 import urllib3
 
 
@@ -126,13 +126,13 @@ for item in itemlist:
         DEBUG(f"Not parsing {item['url']}, different host")
         continue
 
-    p = bs4.BeautifulSoup(r.data, "html.parser")
+    p = lxml.html.document_fromstring(r.data)
 
     srcs = []
-    for tag in p.findAll(attrs={"src": True}):
-        srcs.append(urllib.parse.urljoin(item["url"], tag["src"]))
-    for tag in p.findAll(attrs={"href": True}):
-        srcs.append(urllib.parse.urljoin(item["url"], tag["href"]))
+    for tag in p.xpath("//*[@src]"):
+        srcs.append(urllib.parse.urljoin(item["url"], tag.attrib["src"]))
+    for tag in p.xpath("//*[@href]"):
+        srcs.append(urllib.parse.urljoin(item["url"], tag.attrib["href"]))
     srcs = set(srcs)
 
     for s in srcs:
