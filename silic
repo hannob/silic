@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # Simple Link Checker by Hanno Boeck, https://hboeck.de/
-# License: 0BSD
+# SPDX-License-Identifier: 0BSD
 
 # TODO: Don't double-check fragment-urls (#foo)
 
