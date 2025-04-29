@@ -26,17 +26,6 @@ optional arguments:
 
 ```
 
-# contributions
-
-If you want to write pull requests please stick to the coding style.
-
-```
-pycodestyle silic  --ignore=E501,W503
-pyflakes silic
-```
-
-should output no warnings.
-
 # copyright
 
 This code is licensed as 0BSD.
