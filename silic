@@ -57,8 +57,8 @@ roothost = urllib.parse.urlparse(args.url).netloc
 DEBUG(f"roothost {roothost}")
 
 user_agent = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-                  "(KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
 }
 to = urllib3.Timeout(30)
 poolmanager = urllib3.PoolManager(10, cert_reqs="CERT_REQUIRED", headers=user_agent, timeout=to)
