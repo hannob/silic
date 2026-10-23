@@ -73,7 +73,7 @@ for item in itemlist:
     DEBUG(f"Processing {item['url']} depth {item['depth']}")
     item["processed"] = True
 
-    if urllib.parse.urlparse(item["url"]).scheme in ["mailto", "javascript"]:
+    if urllib.parse.urlparse(item["url"]).scheme in {"mailto", "javascript"}:
         # TODO: Could check if mail address is well formed
         DEBUG(f"Not parsing {item['url']}, different protocol")
         continue
